@@ -1,7 +1,7 @@
 const { UsersModel } = require("../models/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 
 const signUp = async (req, res) => {
     try {
@@ -35,15 +35,20 @@ const signIn = async (req, res) => {
 
         const user = await UsersModel.findOne({ email });
 
-        if (user) { 
+        if (user) {
             hashedPassword = user.password;
             bcrypt.compare(password, hashedPassword, (err, result) => {
-                if(err) {
+                if (err) {
                     res.status(500).json({ message: "Error comparing passwords" });
-                }
-                else if (result) {
-                    const jwtToken = jwt.sign({email}, process.env.JWT_SECRETKEY)
-                    res.status(200).json({ jwtToken });
+                } else if (result) {
+                    const jwtToken = jwt.sign({ email }, process.env.JWT_SECRETKEY);
+
+                    res.cookie('token', jwtToken, {
+                        httpOnly: true,
+                        secure: true
+                    })
+                    console.log('Cookie: ', res.get('Set-Cookie'));
+                    res.status(200).json({ isLoggedIn: true });
                 } else {
                     res.status(200).json({ message: "Incorrect Password" });
                 }
