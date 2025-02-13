@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const router = require('./routes/routes');
+const authenticationRouter = require('./routes/authentication');
+const authenticateToken = require('./middleware/authorization');
 require('dotenv').config();
 const connectDB = require('./db/connectDB');
 
@@ -13,7 +14,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use('/pawfile', router);
+app.use('/pawfile', authenticationRouter);
+app.use(authenticateToken);
 
 const port = 3000;
 
@@ -29,4 +31,5 @@ const start = async () => {
         console.log(err);
     }
 }
+
 start();
