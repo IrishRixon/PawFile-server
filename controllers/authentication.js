@@ -54,12 +54,21 @@ const signIn = async (req, res) => {
                 }
             });
         }
+        else {
+            res.json({ message: 'Account not exist' })
+        }
     } catch (error) {
         console.log(error);
     }
 };
 
+const emailVerification = async (req, res) => {
+    console.log(req.body);
+    res.status(200).json(req.body)
+}
+
 module.exports = {
     signUp,
     signIn,
+    emailVerification
 };
