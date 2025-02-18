@@ -64,6 +64,7 @@ const signIn = async (req, res) => {
 };
 
 let verificationCode;
+let codeDateSent;
 const emailVerification = async (req, res) => {
     const userEmail = req.body.email;
     let min = 100000;
@@ -88,6 +89,8 @@ Thank you for registering with PawFile! To complete your sign-up process, please
 
 Verification Code: ${verificationCode}
 
+This code is valid for 5 minutes
+
 If you didn't request this, please ignore this email.
 
 Cheers,
@@ -100,15 +103,21 @@ The PawFile Team
             console.log(error);
             res.status(500).json({ message: "Error sending email" });
         } else {
+            codeDateSent = new Date().getTime();
             console.log("Email sent: " + info.response);
             res.status(200).json({ message: "Email sent" });
         }
     });
 };
 
+
 const verifyCode = async (req, res) => {
     const { code } = req.body;
+    
     if(code == verificationCode){
+        if(new Date().getTime() - codeDateSent > 300000){
+            return res.status(200).json({ codeExpired: true });
+        }
         res.status(200).json({ isMatch: true });
     }
     else {
