@@ -5,10 +5,11 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 require("dotenv").config();
 
+const saltRounds = 10;
+
 const signUp = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const saltRounds = 10;
         let hashedPassword;
 
         bcrypt.hash(password, saltRounds, async (err, hash) => {
@@ -125,9 +126,52 @@ const verifyCode = async (req, res) => {
     }
 }
 
+const findAccount = async (req, res) => {
+    const { email } = req.body;
+
+    const user = await UsersModel.findOne({ email });
+
+    if(user) {
+        res.status(200).json({ res: { isSuccess: true } });
+    }
+    else {
+        res.status(201).json({ res: { isSuccess: false } });
+    }
+}
+
+const changePassword = async (req, res) => {
+    const { email, oldPass, newPass } =  req.body;
+
+    const user = await UsersModel.findOne({ email });
+
+    bcrypt.compare(oldPass, user.password, (err, result) => {
+        if(err) {
+            res.status(202).json({res: { isSuccess: false, message: err }});
+            return;
+        }
+        else if(result) {   
+            bcrypt.hash(newPass, saltRounds, async (err, hash) => {
+                if(err) {
+                    res.status(202).json({res: { isSuccess: false, message: err }});
+                    return;
+                }
+                else if(hash) {
+                    const updatedUser = await UsersModel.updateOne({ email }, { password: hash});
+                    res.status(200).json({res: { isSuccess: true }});
+                }
+            })
+        }
+        else {
+            res.status(202).json({res: { isSuccess: false, message: 'Old password does not matched'}});
+        }
+    })
+}
+
 module.exports = {
     signUp,
     signIn,
     emailVerification,
-    verifyCode
+    verifyCode,
+    findAccount,
+    changePassword
 };
