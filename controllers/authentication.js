@@ -48,8 +48,10 @@ const signIn = async (req, res) => {
 
                     res.cookie("token", jwtToken, {
                         httpOnly: true,
-                        secure: true,
-                        sameSite: 'strict'
+                        secure: false,
+                        domain: "localhost", // Critical for subdomains/ports
+                        path: "/", // Accessible across all paths
+                        sameSite: "lax"
                     });
                     console.log("Cookie: ", res.get("Set-Cookie"));
                     res.status(200).json({ res: {isSuccess: true }});
