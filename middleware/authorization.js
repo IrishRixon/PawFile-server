@@ -2,14 +2,15 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader?.split(' ')[1];
+    console.log('hello');
+    const token = req.cookies.token;
 
-    if(token === null) res.sendStatus(401);
+    if(!token) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.JWT_SECRETKEY, (err, email) => {
-        if(err) res.sendStatus(403);
-        req.email = email;
+    jwt.verify(token, process.env.JWT_SECRETKEY, (err, decoded) => {
+        if(err) return res.sendStatus(403);
+        req.user = { email: decoded.email };
+        console.log(decoded, 'authorization');
         next();
     });
 }

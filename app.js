@@ -1,21 +1,26 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
 const authenticationRouter = require('./routes/authentication');
 const authenticateToken = require('./middleware/authorization');
+const initialFormRouter = require('./routes/initialForms')
 require('dotenv').config();
 const connectDB = require('./db/connectDB');
 
 const corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200,
+    credentials: true,
     methods: ['GET', 'PUT', 'POST', 'DELETE']
 }
 
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/pawfile', authenticationRouter);
 app.use(authenticateToken);
+app.use('/pawfile', initialFormRouter)
 
 const port = 3000;
 
