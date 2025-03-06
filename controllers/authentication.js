@@ -49,15 +49,16 @@ const signIn = async (req, res) => {
                     res.cookie("token", jwtToken, {
                         httpOnly: true,
                         secure: true,
+                        sameSite: 'strict'
                     });
                     console.log("Cookie: ", res.get("Set-Cookie"));
-                    res.status(200).json({ isLoggedIn: true });
+                    res.status(200).json({ res: {isSuccess: true }});
                 } else {
-                    res.status(200).json({ message: "Incorrect Password" });
+                    res.status(200).json({res: {isSuccess: false, message:'Incorrect credentials' }});
                 }
             });
         } else {
-            res.json({ message: "Account not exist" });
+            res.json({res: {isSuccess: false, message:'Account does not exist' }});
         }
     } catch (error) {
         console.log(error);
