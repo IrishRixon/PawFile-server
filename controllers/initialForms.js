@@ -1,4 +1,5 @@
 const UserIFormModel = require("../models/userInitialForm");
+const PetIFormModel = require('../models/petInitialForm');
 
 const submitInitialUserForm = async (req, res) => {
     try {
@@ -6,16 +7,26 @@ const submitInitialUserForm = async (req, res) => {
         const userInfo = { ...req.body, email };
 
         const userIForm = await UserIFormModel.create(userInfo);
-        
+         
         return res.status(200).json({ res: { isSuccess: true } });
 
     } catch (err) {
-        return res.status(201).json({ res: { isSuccess: false, message: err } });
+        return res.status(409).json({ res: { isSuccess: false, message: err } });
     }
 };
 
 const submitInitialPetForm = async (req, res) => {
-    res.status(200).json({ body: req.body });
+    try {
+        const { email } = req.user;
+        const petInfo = { ...req.body, email };
+
+        const petIForm = await PetIFormModel.create(petInfo);
+
+        return res.status(200).json({ res: { isSuccess: true } });
+    }
+    catch(err) {
+        return res.status(409).json({ res: { isSuccess: false, message: err } });
+    }
 };
 
 module.exports = {

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
-    console.log('hello');
     const token = req.cookies.token;
 
     if(!token) return res.sendStatus(401);

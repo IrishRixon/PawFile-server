@@ -3,10 +3,12 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
 const authenticationRouter = require("./routes/authentication");
-const authenticateToken = require("./middleware/authorization");
 const initialFormRouter = require("./routes/initialForms");
+const singleImageUploadRouter = require('./routes/singleImageUpload');
+const authenticateToken = require("./middleware/authorization");
 require("dotenv").config();
 const connectDB = require("./db/connectDB");
+
 
 const corsOptions = {
     origin: "http://localhost:4200",
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use("/pawfile", authenticationRouter);
 app.use(authenticateToken);
 app.use("/pawfile", initialFormRouter);
+app.use('/pawfile', singleImageUploadRouter)
 
 const port = 3000;
 
