@@ -21,8 +21,7 @@ const submitInitialPetForm = async (req, res) => {
         const petInfo = { ...req.body, email };
 
         const petIForm = await PetIFormModel.create(petInfo);
-
-        return res.status(200).json({ res: { isSuccess: true } });
+        return res.status(200).json({ res: { isSuccess: true, _id: petIForm._id } });
     }
     catch(err) {
         return res.status(409).json({ res: { isSuccess: false, message: err } });
