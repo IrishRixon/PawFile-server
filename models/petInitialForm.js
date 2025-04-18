@@ -2,12 +2,16 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const PetISchema = new Schema({
-    email: {
+    owner: {
         type: String
+    },
+    message: {
+        type: String,
+        default: '',
     },
     name: {
         type: String,
-        default: '',
+        default: 'No name',
         unique: true
     },
     species: {
@@ -29,6 +33,18 @@ const PetISchema = new Schema({
     temperament: {
         type: String,
         default: ''
+    },
+    gender: {
+        type: String,
+        default: ''
+    },
+    profilePic: {
+        type: String,
+        default: null
+    },
+    images: {
+        type: [String],
+        default: []
     }
 });
 

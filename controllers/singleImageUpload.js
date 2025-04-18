@@ -1,4 +1,5 @@
 const cloudinary = require('../utils/cloudinary');
+const PetIFormModel = require('../models/petInitialForm');
 
 const singleImageUpload = async (req, res) => {
 
@@ -10,19 +11,23 @@ const singleImageUpload = async (req, res) => {
     
         const result = await cloudinary.uploader.upload(dataURI, {
             public_id: _id,
-            folder: 'Pet Profile Picture',
+            folder: 'Pet_Profile_Picture',
             overwrite: true,
             transformation: {
                 width: 200,
                 height: 200,
-                gravity: 'auto',
+                gravity: 'auto', 
                 crop: 'fill'
             }
         });
-        
+
+        const profilePic = `v${result.version}/${result.public_id}`
+
+        const petIForm = await PetIFormModel.findOneAndUpdate({ _id }, { profilePic });
+
         res.status(200).json({ res: {
             isSuccess: true,
-            message: result
+            message: 'Image uploaded successfully',
         }})
     }
     catch(err) {

@@ -5,6 +5,8 @@ const app = express();
 const authenticationRouter = require("./routes/authentication");
 const initialFormRouter = require("./routes/initialForms");
 const singleImageUploadRouter = require('./routes/singleImageUpload');
+const petCardsRouter = require('./routes/dashboard/petcards');
+const petProfileDetailsRouter = require('./routes/dashboard/petProfileDetails');
 const authenticateToken = require("./middleware/authorization");
 require("dotenv").config();
 const connectDB = require("./db/connectDB");
@@ -24,7 +26,9 @@ app.use(express.json());
 app.use("/pawfile", authenticationRouter);
 app.use(authenticateToken);
 app.use("/pawfile", initialFormRouter);
-app.use('/pawfile', singleImageUploadRouter)
+app.use('/pawfile', singleImageUploadRouter);
+app.use('/pawfile/dashboard', petCardsRouter);
+app.use('/pawfile/dashboard', petProfileDetailsRouter);
 
 const port = 3000;
 
