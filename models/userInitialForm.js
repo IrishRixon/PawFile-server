@@ -36,6 +36,10 @@ const UserIFormSchema = new Schema({
             default: ''
         },
     },
+    profilePic: {
+        type: String,
+        default: null
+    }
 });
 
 const UserIFormModel = mongoose.model('UserIForm', UserIFormSchema);
