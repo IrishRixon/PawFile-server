@@ -22,9 +22,11 @@ const singleImageUpload = async (req, res) => {
         });
 
         const profilePic = `v${result.version}/${result.public_id}`
+        console.log(profilePic, 'upload');
 
-        const petIForm = await PetIFormModel.findOneAndUpdate({ _id }, { profilePic });
+        const petIForm = await PetIFormModel.findOneAndUpdate({ _id }, { profilePic }, { new: true });
 
+        console.log(petIForm, 'upload');
         res.status(200).json({ res: {
             isSuccess: true,
             message: 'Image uploaded successfully',

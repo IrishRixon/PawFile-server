@@ -12,6 +12,7 @@ const getPetsCard = async (req, res) => {
             petsCard.push({ name, profilePic, _id });
         });
 
+        console.log(petsCard, 'cards');
         res.status(200).json({ petsCard });
     }
     catch(err) {
