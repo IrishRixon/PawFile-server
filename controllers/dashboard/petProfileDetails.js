@@ -4,13 +4,12 @@ const MedicalIFormModel = require('../../models/medicalIForm');
 
 const getPetProfileDetails = async (req, res) => {
     try {
-        const { name } = req.params;
+        const { id } = req.params;
         const { email } = req.user;
-        const petDetails = await PetIFormModel.findOne({ name });
+        const petDetails = await PetIFormModel.findOne({ _id: id });
         const ownerDetails = await UserIFormModel.findOne({ email });
-        const medicalDetails = await MedicalIFormModel.findOne({ petName: name });
+        const medicalDetails = await MedicalIFormModel.findOne({ petName: petDetails.name });
 
-        console.log(name);
         res.status(200).json({ 
             petDetails,
             ownerDetails,

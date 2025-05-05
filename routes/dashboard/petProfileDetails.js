@@ -3,6 +3,6 @@ const {
     getPetProfileDetails,
 } = require('../../controllers/dashboard/petProfileDetails');
 
-petProfileDetailsRouter.route('/getPetProfileDetails/:name').get(getPetProfileDetails);
+petProfileDetailsRouter.route('/getPetProfileDetails/:id').get(getPetProfileDetails);
 
 module.exports = petProfileDetailsRouter;
