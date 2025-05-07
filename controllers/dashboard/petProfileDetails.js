@@ -37,18 +37,41 @@ const updatePetDetails = async (req, res) => {
             },
             newData,
             {
-                new: true
+                new: true,
             }
         );
         console.log(petDetails);
         res.status(200).json(petDetails);
     } catch (error) {
         console.log(error);
-        res.status(400).send('An error occured.');
+        res.status(400).send("An error occured.");
     }
+};
+
+const updateMedicalDetails = async (req, res) => {
+    try {
+        const newData = req.body;
+        const { email } = req.user;
+        console.log(newData);
+        const { name } = newData;
+        console.log(name);
+
+        const newMedicalDetails = await MedicalIFormModel.findOneAndUpdate(
+            { email, petName: name },
+            newData,
+            { new: true }
+        );
+
+        console.log(newMedicalDetails);
+        res.status(200).json(newMedicalDetails);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send("An error occured.");
+     }
 };
 
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
+    updateMedicalDetails,
 };
