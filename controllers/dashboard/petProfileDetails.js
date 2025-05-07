@@ -12,6 +12,7 @@ const getPetProfileDetails = async (req, res) => {
             petName: petDetails.name,
         });
 
+        console.log(ownerDetails, 'owner');
         res.status(200).json({
             petDetails,
             ownerDetails,
@@ -30,7 +31,7 @@ const updatePetDetails = async (req, res) => {
         console.log(newData);
         console.log(name);
 
-        const petDetails = await PetIFormModel.findOneAndUpdate(
+        const newPetDetails = await PetIFormModel.findOneAndUpdate(
             {
                 name,
                 owner: email,
@@ -40,8 +41,8 @@ const updatePetDetails = async (req, res) => {
                 new: true,
             }
         );
-        console.log(petDetails);
-        res.status(200).json(petDetails);
+        console.log(newPetDetails);
+        res.status(200).json(newPetDetails);
     } catch (error) {
         console.log(error);
         res.status(400).send("An error occured.");
@@ -67,11 +68,30 @@ const updateMedicalDetails = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(400).send("An error occured.");
-     }
+    }
 };
+
+const updateOwnerDetails = async (req, res) => {
+    try {
+        const newData = req.body;
+        const { email } = req.user;
+
+        const newOwnerDetails = await UserIFormModel.findOneAndUpdate(
+            { email },
+            newData,
+            { new: true }
+        );
+
+        console.log(newOwnerDetails);
+        res.status(200).json(newOwnerDetails);
+    } catch (error) {
+        console.log(error);
+    }
+} 
 
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
     updateMedicalDetails,
+    updateOwnerDetails
 };
