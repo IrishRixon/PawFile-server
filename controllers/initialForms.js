@@ -27,11 +27,12 @@ const submitInitialPetForm = async (req, res) => {
     // res.status(200).send(petInfo);
     const petIForm = await PetIFormModel.create(petInfo);
     const medicalIForm = await MedicalIFormModel.create({
+      email: owner,
       petName: petIForm.name,
       vetClinicName: "",
       vetClinicPhoneNumber: "",
       vaccination: "",
-      allergies: "",
+      allergies: "", 
       medications: "",
     });
 

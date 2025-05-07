@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const medicalIFormSchema = new Schema({
+    email: {
+        type: String,
+    },
     petName: {
         type: String,
         default: 'No name'
