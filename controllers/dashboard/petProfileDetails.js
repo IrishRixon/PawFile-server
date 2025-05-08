@@ -89,9 +89,30 @@ const updateOwnerDetails = async (req, res) => {
     }
 } 
 
+const updateMessageDetails = async (req, res) => {
+    try {
+        const { message } = req.body;
+        const { email } = req.user;
+        const { name } = req.body;
+
+        const newMessageDetails = await PetIFormModel.findOneAndUpdate(
+            { name, owner: email },
+            { message },
+            { new: true }
+        );
+
+        console.log(newMessageDetails);
+        res.status(200).json(newMessageDetails);
+
+    } catch (error) {
+        res.status(200).json(error);
+    }
+}
+
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
     updateMedicalDetails,
-    updateOwnerDetails
+    updateOwnerDetails,
+    updateMessageDetails
 };

@@ -3,12 +3,14 @@ const {
     getPetProfileDetails,
     updatePetDetails,
     updateMedicalDetails,
-    updateOwnerDetails
+    updateOwnerDetails,
+    updateMessageDetails
 } = require('../../controllers/dashboard/petProfileDetails');
 
 petProfileDetailsRouter.route('/getPetProfileDetails/:id').get(getPetProfileDetails);
 petProfileDetailsRouter.route('/updatePetDetails').put(updatePetDetails);
 petProfileDetailsRouter.route('/updateMedicalDetailsForm').put(updateMedicalDetails);
 petProfileDetailsRouter.route('/updateOwnerDetails').put(updateOwnerDetails);
+petProfileDetailsRouter.route('/updateMessageDetails').put(updateMessageDetails);
 
 module.exports = petProfileDetailsRouter;
