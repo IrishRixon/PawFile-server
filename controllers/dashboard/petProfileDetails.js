@@ -1,6 +1,7 @@
 const PetIFormModel = require("../../models/petInitialForm");
 const UserIFormModel = require("../../models/userInitialForm");
 const MedicalIFormModel = require("../../models/medicalIForm");
+const cloudinary = require("../../utils/cloudinary");
 
 const getPetProfileDetails = async (req, res) => {
     try {
@@ -12,7 +13,7 @@ const getPetProfileDetails = async (req, res) => {
             petName: petDetails.name,
         });
 
-        console.log(ownerDetails, 'owner');
+        console.log(ownerDetails, "owner");
         res.status(200).json({
             petDetails,
             ownerDetails,
@@ -87,7 +88,7 @@ const updateOwnerDetails = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 const updateMessageDetails = async (req, res) => {
     try {
@@ -103,11 +104,10 @@ const updateMessageDetails = async (req, res) => {
 
         console.log(newMessageDetails);
         res.status(200).json(newMessageDetails);
-
     } catch (error) {
         res.status(200).json(error);
     }
-}
+};
 
 const updateNameDetails = async (req, res) => {
     try {
@@ -115,7 +115,6 @@ const updateNameDetails = async (req, res) => {
         const { newName } = req.body;
         const { email } = req.user;
         console.log(req.body);
-
 
         const newData = await PetIFormModel.findOneAndUpdate(
             { name: prevName, owner: email },
@@ -128,12 +127,47 @@ const updateNameDetails = async (req, res) => {
             prevName: prevName,
             newName: newName.name,
         });
-
     } catch (error) {
         console.log(error);
         res.status(400).json(error);
     }
-}
+};
+
+const carouselImage = async (req, res) => {
+    try {
+        const { _id } = req.body;
+
+        const petDetails = await PetIFormModel.findOne({ _id });
+
+        if (petDetails.images.length < 5) {
+            const fileBuffer = req.file.buffer.toString("base64");
+            const dataURI = `data:${req.file.mimetype};base64,${fileBuffer}`;
+
+            const result = await cloudinary.uploader.upload(dataURI, {
+                folder: "Carousel_Images",
+                transformation: {
+                    width: 200,
+                    height: 200,
+                    gravity: "auto",
+                    crop: "fill",
+                },
+            });
+
+            petDetails.images.push(`v${result.version}/${result.public_id}`);
+
+            const updatedPetDetails = await PetIFormModel.findOneAndUpdate(
+                { _id },
+                { images: petDetails.images },
+                { new: true }
+            );
+
+            res.status(200).json({ images: updatedPetDetails.images });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(error.statusCode).json({ errorMessage: error.message });
+    }
+};
 
 module.exports = {
     getPetProfileDetails,
@@ -141,5 +175,6 @@ module.exports = {
     updateMedicalDetails,
     updateOwnerDetails,
     updateMessageDetails,
-    updateNameDetails
+    updateNameDetails,
+    carouselImage,
 };

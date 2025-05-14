@@ -5,7 +5,8 @@ const {
     updateMedicalDetails,
     updateOwnerDetails,
     updateMessageDetails,
-    updateNameDetails
+    updateNameDetails,
+    carouselImage
 } = require('../../controllers/dashboard/petProfileDetails');
 
 const { singleImageUpload } = require('../../controllers/singleImageUpload');
@@ -18,6 +19,7 @@ petProfileDetailsRouter.route('/updateOwnerDetails').put(updateOwnerDetails);
 petProfileDetailsRouter.route('/updateMessageDetails').put(updateMessageDetails);
 petProfileDetailsRouter.route('/updateNameDetails').put(updateNameDetails);
 petProfileDetailsRouter.route('/uploadPetImage').put(upload.single('image'), singleImageUpload);
+petProfileDetailsRouter.route('/carouselImage').put(upload.single('image'), carouselImage);
 
 
 module.exports = petProfileDetailsRouter;
