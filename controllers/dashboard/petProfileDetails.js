@@ -2,6 +2,7 @@ const PetIFormModel = require("../../models/petInitialForm");
 const UserIFormModel = require("../../models/userInitialForm");
 const MedicalIFormModel = require("../../models/medicalIForm");
 const cloudinary = require("../../utils/cloudinary");
+const { log } = require("console");
 
 const getPetProfileDetails = async (req, res) => {
     try {
@@ -138,7 +139,7 @@ const carouselImage = async (req, res) => {
         const { _id } = req.body;
 
         const petDetails = await PetIFormModel.findOne({ _id });
-
+        console.log(petDetails);
         if (petDetails.images.length < 5) {
             const fileBuffer = req.file.buffer.toString("base64");
             const dataURI = `data:${req.file.mimetype};base64,${fileBuffer}`;
@@ -169,6 +170,35 @@ const carouselImage = async (req, res) => {
     }
 };
 
+deleteCarouselImage = async (req, res) => {
+    try {
+        const { _id, index } = req.params;
+
+        const petDetails = await PetIFormModel.findOne({ _id });
+
+        const strArr = petDetails.images[index].split('/');
+        const deleteImageResult = await cloudinary.uploader.destroy(`${strArr[1]}/${strArr[2]}`);
+        console.log(deleteImageResult);
+
+        if (deleteImageResult.result == "ok") {
+            petDetails.images.splice(index, 1);
+
+            const newPetDetails = await PetIFormModel.findOneAndUpdate(
+                { _id },
+                { images: petDetails.images },
+                { new: true }
+            );
+
+            res.status(200).json({ message: "Deleted Successfully" });
+        }
+
+        res.status(412).json({ message: "Deletion Failed" });
+
+    } catch (error) {
+        console.log(error);
+        res.status(error.statusCode).json({ message: error.message });
+    }
+};
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
@@ -177,4 +207,5 @@ module.exports = {
     updateMessageDetails,
     updateNameDetails,
     carouselImage,
+    deleteCarouselImage,
 };
