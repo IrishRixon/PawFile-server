@@ -224,6 +224,19 @@ const postNewPet = async (req, res) => {
     }
 }
 
+const deletePet = async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const { email } = req.user;
+
+        const petDetails = await PetIFormModel.findOneAndDelete({ _id, owner: email});
+
+        res.status(200).json({ message: "Deleted Successfully" });
+    } catch (error) {
+        res.status(error.status).json({ message: "Deleted unSuccessfully" });
+    }
+}
+
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
@@ -233,5 +246,6 @@ module.exports = {
     updateNameDetails,
     carouselImage,
     deleteCarouselImage,
-    postNewPet
+    postNewPet,
+    deletePet
 };
