@@ -23,8 +23,8 @@ const PetISchema = new Schema({
         default: ''
     },
     age: {
-        type: Number,
-        default: 0
+        type: String,
+        default: ''
     },
     color: {
         type: String,
@@ -40,14 +40,14 @@ const PetISchema = new Schema({
     },
     profilePic: {
         type: String,
-        default: null
+        default: '/v1747358241/8665281_dog_animal_icon_rqplbp.jpg'
     },
     images: {
         type: [String],
         default: []
     }
 });
-
+ 
 const PetIFormModel = mongoose.model('PetIForm', PetISchema);
 
 module.exports = PetIFormModel;

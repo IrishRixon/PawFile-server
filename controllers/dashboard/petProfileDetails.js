@@ -11,7 +11,7 @@ const getPetProfileDetails = async (req, res) => {
         const petDetails = await PetIFormModel.findOne({ _id: id });
         const ownerDetails = await UserIFormModel.findOne({ email });
         const medicalDetails = await MedicalIFormModel.findOne({
-            petName: petDetails.name,
+            email,
         });
 
         console.log(ownerDetails, "owner");
@@ -60,7 +60,7 @@ const updateMedicalDetails = async (req, res) => {
         console.log(name);
 
         const newMedicalDetails = await MedicalIFormModel.findOneAndUpdate(
-            { email, petName: name },
+            { email },
             newData,
             { new: true }
         );
@@ -170,7 +170,7 @@ const carouselImage = async (req, res) => {
     }
 };
 
-deleteCarouselImage = async (req, res) => {
+const deleteCarouselImage = async (req, res) => {
     try {
         const { _id, index } = req.params;
 
@@ -190,6 +190,7 @@ deleteCarouselImage = async (req, res) => {
             );
 
             res.status(200).json({ message: "Deleted Successfully" });
+            return;
         }
 
         res.status(412).json({ message: "Deletion Failed" });
@@ -199,6 +200,30 @@ deleteCarouselImage = async (req, res) => {
         res.status(error.statusCode).json({ message: error.message });
     }
 };
+
+const postNewPet = async (req, res) => {
+    try {
+        const { email } = req.user;
+        const newPetDetails = req.body;
+
+        const petDetails = await PetIFormModel.create({
+            ...newPetDetails,
+            owner: email,
+        });
+
+        console.log(petDetails);
+        res.status(200).json({ 
+            profilePic: petDetails.profilePic, 
+            name: petDetails.name,
+            _id: petDetails._id,
+         });
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error });
+    }
+}
+
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
@@ -208,4 +233,5 @@ module.exports = {
     updateNameDetails,
     carouselImage,
     deleteCarouselImage,
+    postNewPet
 };

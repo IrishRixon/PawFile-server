@@ -7,7 +7,8 @@ const {
     updateMessageDetails,
     updateNameDetails,
     carouselImage,
-    deleteCarouselImage
+    deleteCarouselImage,
+    postNewPet
 } = require('../../controllers/dashboard/petProfileDetails');
 
 const { singleImageUpload } = require('../../controllers/singleImageUpload');
@@ -22,6 +23,7 @@ petProfileDetailsRouter.route('/updateNameDetails').put(updateNameDetails);
 petProfileDetailsRouter.route('/uploadPetImage').put(upload.single('image'), singleImageUpload);
 petProfileDetailsRouter.route('/carouselImage').post(upload.single('image'), carouselImage);
 petProfileDetailsRouter.route('/deleteCarouselImage/:_id/:index').delete(deleteCarouselImage);
+petProfileDetailsRouter.route('/postNewPet').post(postNewPet);
 
 
 module.exports = petProfileDetailsRouter;
