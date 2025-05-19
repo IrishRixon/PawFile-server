@@ -45,6 +45,10 @@ const PetISchema = new Schema({
     images: {
         type: [String],
         default: []
+    },
+    isMissing: {
+        type: Boolean,
+        default: false
     }
 });
  

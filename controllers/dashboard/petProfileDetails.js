@@ -237,6 +237,22 @@ const deletePet = async (req, res) => {
     }
 }
 
+const updateMissing = async (req, res) => {
+    try {
+        const { isMissing, _id } = req.body;
+        
+        const petDetails = await PetIFormModel.findOneAndUpdate(
+            { _id },
+            { isMissing },
+            { new: true }
+        );
+
+        res.status(200).json({ isMissing: petDetails.isMissing });
+    } catch (error) {
+        res.status(error.status).json({ error: error.message });
+    }
+}
+
 module.exports = {
     getPetProfileDetails,
     updatePetDetails,
@@ -247,5 +263,6 @@ module.exports = {
     carouselImage,
     deleteCarouselImage,
     postNewPet,
-    deletePet
+    deletePet,
+    updateMissing
 };

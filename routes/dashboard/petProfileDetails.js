@@ -9,7 +9,8 @@ const {
     carouselImage,
     deleteCarouselImage,
     postNewPet,
-    deletePet
+    deletePet,
+    updateMissing
 } = require('../../controllers/dashboard/petProfileDetails');
 
 const { singleImageUpload } = require('../../controllers/singleImageUpload');
@@ -21,10 +22,11 @@ petProfileDetailsRouter.route('/updateMedicalDetailsForm').put(updateMedicalDeta
 petProfileDetailsRouter.route('/updateOwnerDetails').put(updateOwnerDetails);
 petProfileDetailsRouter.route('/updateMessageDetails').put(updateMessageDetails);
 petProfileDetailsRouter.route('/updateNameDetails').put(updateNameDetails);
+petProfileDetailsRouter.route('/updateMissing').put(updateMissing);
 petProfileDetailsRouter.route('/uploadPetImage').put(upload.single('image'), singleImageUpload);
-petProfileDetailsRouter.route('/carouselImage').post(upload.single('image'), carouselImage);
 petProfileDetailsRouter.route('/deletePet/:_id').delete(deletePet);
 petProfileDetailsRouter.route('/deleteCarouselImage/:_id/:index').delete(deleteCarouselImage);
+petProfileDetailsRouter.route('/carouselImage').post(upload.single('image'), carouselImage);
 petProfileDetailsRouter.route('/postNewPet').post(postNewPet);
 
 

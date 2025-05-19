@@ -30,6 +30,7 @@ const singleImageUpload = async (req, res) => {
         res.status(200).json({ res: {
             isSuccess: true,
             message: 'Image uploaded successfully',
+            profilePic
         }})
     }
     catch(err) {
