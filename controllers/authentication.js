@@ -51,7 +51,7 @@ const signIn = async (req, res) => {
                         secure: true,
                         // domain: "pawfile-server.onrender.com", // Critical for subdomains/ports
                         path: "/", // Accessible across all paths
-                        sameSite: "none"
+                        sameSite: "None"
                     });
                     console.log("Cookie: ", res.get("Set-Cookie"));
                     res.status(200).json({ res: {isSuccess: true }});

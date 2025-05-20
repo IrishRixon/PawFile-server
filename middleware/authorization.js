@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
     const token = req.cookies.token;
-    console.log(token);
+    console.log(token, 'token');
     
     if(!token) return res.sendStatus(401);
 
