@@ -49,9 +49,9 @@ const signIn = async (req, res) => {
                     res.cookie("token", jwtToken, {
                         httpOnly: true,
                         secure: false,
-                        domain: "localhost", // Critical for subdomains/ports
+                        domain: "pawfile-server.onrender.com", // Critical for subdomains/ports
                         path: "/", // Accessible across all paths
-                        sameSite: "lax"
+                        sameSite: "none"
                     });
                     console.log("Cookie: ", res.get("Set-Cookie"));
                     res.status(200).json({ res: {isSuccess: true }});
