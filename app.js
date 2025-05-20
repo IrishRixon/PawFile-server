@@ -20,8 +20,8 @@ const corsOptions = {
     methods: ["GET", "PUT", "POST", "DELETE"],
 };
 
-app.use(cookieParser());
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 app.use("/pawfile", authenticationRouter);
 app.use(authenticateToken);
