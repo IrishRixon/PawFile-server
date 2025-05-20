@@ -49,7 +49,7 @@ const signIn = async (req, res) => {
                     res.cookie("token", jwtToken, {
                         httpOnly: true,
                         secure: true,
-                        // domain: "pawfile-server.onrender.com", // Critical for subdomains/ports
+                        domain: "pawfile-serve.onrender.com", // Critical for subdomains/ports
                         path: "/", // Accessible across all paths
                         sameSite: "None"
                     });
