@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/pawfile", authenticationRouter);
-app.use(authenticateToken);
+// app.use(authenticateToken);
 app.use("/pawfile", initialFormRouter);
 app.use('/pawfile', singleImageUploadRouter);
 app.use('/pawfile/dashboard', petCardsRouter);
