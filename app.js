@@ -30,7 +30,7 @@ app.use('/pawfile', singleImageUploadRouter);
 app.use('/pawfile/dashboard', petCardsRouter);
 app.use('/pawfile/dashboard', petProfileDetailsRouter);
 
-const port = 3000;
+const port = 3000 || process.env.PORT;
 
 const start = async () => {
     try {
