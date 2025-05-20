@@ -49,7 +49,6 @@ const signIn = async (req, res) => {
                     res.cookie("token", jwtToken, {
                         httpOnly: true,
                         secure: true,
-                        domain: ".netlify.app", // Critical for subdomains/ports
                         path: "/", // Accessible across all paths
                         sameSite: "None"
                     });
