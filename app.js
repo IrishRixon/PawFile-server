@@ -13,25 +13,24 @@ const connectDB = require("./db/connectDB");
 
 
 const corsOptions = {
-    origin: ["https://pawfile.netlify.app", "http://localhost:4200"],
-
+    origin: "https://pawfile.netlify.app/",
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Set-Cookie"], // Expose Set-Cookie header to the client
     methods: ["GET", "PUT", "POST", "DELETE"],
 };
 
-app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/pawfile", authenticationRouter);
-// app.use(authenticateToken);
+app.use(authenticateToken);
 app.use("/pawfile", initialFormRouter);
 app.use('/pawfile', singleImageUploadRouter);
 app.use('/pawfile/dashboard', petCardsRouter);
 app.use('/pawfile/dashboard', petProfileDetailsRouter);
 
-const port = 3000 || process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const start = async () => {
     try {
