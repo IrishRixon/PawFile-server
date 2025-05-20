@@ -13,7 +13,7 @@ const connectDB = require("./db/connectDB");
 
 
 const corsOptions = {
-    origin: "http://localhost:4200",
+    origin: "https://pawfile.netlify.app",
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Set-Cookie"], // Expose Set-Cookie header to the client
