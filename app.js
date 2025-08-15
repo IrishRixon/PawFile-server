@@ -7,13 +7,15 @@ const initialFormRouter = require("./routes/initialForms");
 const singleImageUploadRouter = require('./routes/singleImageUpload');
 const petCardsRouter = require('./routes/dashboard/petcards');
 const petProfileDetailsRouter = require('./routes/dashboard/petProfileDetails');
+const qrRouter = require('./routes/dashboard/qr');
 const authenticateToken = require("./middleware/authorization");
 require("dotenv").config();
 const connectDB = require("./db/connectDB");
 
 
 const corsOptions = {
-    origin: "https://pawfile.netlify.app",
+    // origin: "https://pawfile.netlify.app",
+    origin: "http://localhost:4200",
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ["Content-Type", "Authorization"],
     exposedHeaders: ["Set-Cookie"], // Expose Set-Cookie header to the client
@@ -23,6 +25,7 @@ const corsOptions = {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use('/pawfile/dashboard', qrRouter);
 app.use("/pawfile", authenticationRouter);
 app.use(authenticateToken);
 app.use("/pawfile", initialFormRouter);
