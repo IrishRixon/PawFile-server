@@ -169,11 +169,24 @@ const changePassword = async (req, res) => {
     })
 }
 
+const logOut = async (req, res) => {
+    console.log("Cookie: ", res.get("Set-Cookie"));
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        path: "/", // Accessible across all paths
+        sameSite: "None"
+    });
+    console.log("Cookie: ", res.get("Set-Cookie"));
+    res.status(200).json({});
+}
+
 module.exports = {
     signUp,
     signIn,
     emailVerification,
     verifyCode,
     findAccount,
-    changePassword
+    changePassword,
+    logOut
 };

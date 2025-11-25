@@ -212,11 +212,11 @@ const postNewPet = async (req, res) => {
         });
 
         console.log(petDetails);
-        res.status(200).json({ 
-            profilePic: petDetails.profilePic, 
+        res.status(200).json({
+            profilePic: petDetails.profilePic,
             name: petDetails.name,
             _id: petDetails._id,
-         });
+        });
 
     } catch (error) {
         console.log(error);
@@ -229,7 +229,7 @@ const deletePet = async (req, res) => {
         const { _id } = req.params;
         const { email } = req.user;
 
-        const petDetails = await PetIFormModel.findOneAndDelete({ _id, owner: email});
+        const petDetails = await PetIFormModel.findOneAndDelete({ _id, owner: email });
 
         res.status(200).json({ message: "Deleted Successfully" });
     } catch (error) {
@@ -240,7 +240,7 @@ const deletePet = async (req, res) => {
 const updateMissing = async (req, res) => {
     try {
         const { isMissing, _id } = req.body;
-        
+
         const petDetails = await PetIFormModel.findOneAndUpdate(
             { _id },
             { isMissing },
