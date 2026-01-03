@@ -146,25 +146,36 @@ const changePassword = async (req, res) => {
 
     const user = await UsersModel.findOne({ email });
 
-    bcrypt.compare(oldPass, user.password, (err, result) => {
+    // bcrypt.compare(oldPass, user.password, (err, result) => {
+    //     if(err) {
+    //         res.status(202).json({res: { isSuccess: false, message: err }});
+    //         return;
+    //     }
+    //     else if(result) {   
+    //         bcrypt.hash(newPass, saltRounds, async (err, hash) => {
+    //             if(err) {
+    //                 res.status(202).json({res: { isSuccess: false, message: err }});
+    //                 return;
+    //             }
+    //             else if(hash) {
+    //                 const updatedUser = await UsersModel.updateOne({ email }, { password: hash});
+    //                 res.status(200).json({res: { isSuccess: true }});
+    //             }
+    //         })
+    //     }
+    //     else {
+    //         res.status(202).json({res: { isSuccess: false, message: 'Old password does not matched'}});
+    //     }
+    // })
+
+    bcrypt.hash(newPass, saltRounds, async (err, hash) => {
         if(err) {
             res.status(202).json({res: { isSuccess: false, message: err }});
             return;
         }
-        else if(result) {   
-            bcrypt.hash(newPass, saltRounds, async (err, hash) => {
-                if(err) {
-                    res.status(202).json({res: { isSuccess: false, message: err }});
-                    return;
-                }
-                else if(hash) {
-                    const updatedUser = await UsersModel.updateOne({ email }, { password: hash});
-                    res.status(200).json({res: { isSuccess: true }});
-                }
-            })
-        }
-        else {
-            res.status(202).json({res: { isSuccess: false, message: 'Old password does not matched'}});
+        else if(hash) {
+            const updatedUser = await UsersModel.updateOne({ email }, { password: hash});
+            res.status(200).json({res: { isSuccess: true }});
         }
     })
 }
