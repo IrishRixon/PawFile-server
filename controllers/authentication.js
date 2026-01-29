@@ -72,6 +72,7 @@ let codeDateSent;
 const emailVerification = async (req, res) => {
     sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
+    console.log('emailverif');
     const userEmail = req.body.email;
     let min = 100000;
     let max = 1000000;
