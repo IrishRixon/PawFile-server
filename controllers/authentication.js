@@ -82,16 +82,28 @@ const emailVerification = async (req, res) => {
         to: userEmail, // Change to your recipient
         from: 'irishrixon@gmail.com', // Change to your verified sender
         subject: 'Your Pawfile code',
-        text: `Your code is: ${verificationCode}`,
+        text: `Greetings PawFriend,
+
+Thank you for registering with PawFile! To complete your sign-up process, please verify your email address by entering the verification code below:
+
+Verification Code: ${verificationCode}
+
+This code is valid for 5 minutes
+
+If you didn't request this, please ignore this email.
+
+Cheers,
+The PawFile Team
+`,
         
     }
     sgMail
         .send(msg)
         .then(() => {
-            console.log('Email sent')
+            res.status(200).json({ message: "Email sent" });
         })
         .catch((error) => {
-            console.error(error)
+            res.status(500).json({ message: "Failed" });
         })
 };
 
