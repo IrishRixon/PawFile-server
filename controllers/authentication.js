@@ -72,17 +72,17 @@ let codeDateSent;
 const emailVerification = async (req, res) => {
     sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
-    // const userEmail = req.body.email;
-    // let min = 100000;
-    // let max = 1000000;
-    // verificationCode = crypto.randomInt(min, max);
+    const userEmail = req.body.email;
+    let min = 100000;
+    let max = 1000000;
+    verificationCode = crypto.randomInt(min, max);
 
     const msg = {
-        to: 'rixondelapena@gmail.com', // Change to your recipient
+        to: userEmail, // Change to your recipient
         from: 'irishrixon@gmail.com', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        subject: 'Your Pawfile code',
+        text: `Your code is: ${verificationCode}`,
+        
     }
     sgMail
         .send(msg)
